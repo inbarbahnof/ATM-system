@@ -9,6 +9,48 @@ This project implements a **simple ATM server** with the following actions:
 * **Deposit** – Deposit a specified amount of money into the account
 
 ---
+## Approach
+
+The ATM server is implemented as a RESTful API using Flask and Flask-RESTful, which allows clients to interact with the server over HTTP.
+
+Each account is stored in memory as a dictionary entry (accounts) with the account number as the key and the current balance as the value.
+
+The server reads POST request bodies as JSON using request.get_json(force=True), ensuring structured input for deposit and withdraw operations.
+
+The server also reads the PORT environment variable to support deployment on cloud platforms, where the port is dynamically assigned.
+
+---
+
+## Design Decisions
+
+1. **Separate Class per Action**
+
+   Each main action - Account, Balance, Deposit, Withdraw - is implemented as a separate Flask-RESTful Resource class.  This decision improves modularity: each class encapsulates the logic for one type of operation, making the code easier to read, maintain, and extend.
+
+    Future operations (e.g., transfer between accounts) can be added as new classes without modifying existing ones.
+
+
+2. **Error Handling with abort()**
+
+    All invalid operations, like withdrawing more than the balance or accessing a non-existent account, trigger proper HTTP error responses with messages.
+
+
+3. **Cloud-Ready Configuration**
+
+    Using os.environ.get("PORT", 8080) allows the server to adapt automatically to cloud environments.
+
+---
+
+## Challenges
+
+1. **Learning About Servers** Understanding how to set up a server and handle requests from clients.
+
+
+2. **Cloud Deployment** Figuring out how to deploy the server to a cloud platform and make it accessible online.
+
+---
+
+# How To Use
 
 ## Running the Server
 
@@ -20,7 +62,6 @@ python ATM_Server.py
 
 > The server will start and display the address it’s running on. We will refer to it as `{address}` in the examples below.
 
----
 
 ## API Endpoints & Usage
 
