@@ -1,10 +1,16 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, abort
+import os
 
 app = Flask("ATM_Api")
 api = Api(app)
 
 accounts = {}
+
+
+@app.route("/")
+def index():
+    return "ATM API is running!", 200
 
 
 def get_account(account_number):
@@ -69,4 +75,5 @@ api.add_resource(Withdraw, '/accounts/<account_number>/withdraw')
 api.add_resource(Deposit, '/accounts/<account_number>/deposit')
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
     app.run()
