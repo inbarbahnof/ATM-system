@@ -16,6 +16,7 @@ def index():
 
 
 def get_account(account_number):
+    """Checks if account_number exists, if so - returns its balance"""
     if account_number not in accounts:
         abort(404, message=f"Account {account_number} was not found.")
 
