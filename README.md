@@ -19,6 +19,8 @@ The server reads POST request bodies as JSON using request.get_json(force=True),
 
 The server also reads the PORT environment variable to support deployment on cloud platforms, where the port is dynamically assigned.
 
+To ensure thread safety and prevent race conditions, a threading.Lock is used to protect the shared accounts dictionary, guaranteeing that only one request can modify the account data at a time.
+
 ---
 
 ## Design Decisions
@@ -72,8 +74,10 @@ python ATM_Server.py
 **Command:**
 
 ```bash
-curl -X POST {address}/accounts/{account_number}
+curl -X POST {address}/accounts/{account_number} -H "Content-Type: application/json" -d "{}"
 ```
+
+> Replace {address} with the server's address, and {account_number} in the wanted account number.
 
 ---
 
